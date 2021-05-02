@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\CashRegisterBalance;
+use App\Listeners\CalculateMoneyListener;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(CashRegisterBalance::class, function ($app) {
+            return  new CashRegisterBalance();
+        });
+//        $this->app->bind(CalculateMoneyListener::class, function ($app) {
+//            $class = $app->make(CashRegisterBalance::class);
+//            return  new CalculateMoneyListener($class);
+//        });
+
+
+
+
     }
 
     /**
@@ -23,6 +35,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
     }
 }

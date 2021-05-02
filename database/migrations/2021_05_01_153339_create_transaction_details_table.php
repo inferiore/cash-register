@@ -20,7 +20,9 @@ class CreateTransactionDetailsTable extends Migration
             $table->decimal("amount",10,2);
             $table->unsignedInteger("transaction_id");
             $table->foreign("transaction_id")->on("transactions")->references("id");
+            $table->softDeletes();
             $table->timestamps();
+
         });
 
     }

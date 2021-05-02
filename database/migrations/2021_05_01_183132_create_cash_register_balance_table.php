@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransactionsTable extends Migration
+class CreateCashRegisterBalanceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('cash_register_balance', function (Blueprint $table) {
             $table->id();
-            $table->string("transaction_type");
+            $table->integer("denomination");
+            $table->integer("quantity");
             $table->decimal("amount",12,2);
-            $table->softDeletes();
+
+
+
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ class CreateTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('cash_register_balance');
     }
 }
