@@ -31,6 +31,8 @@ class CashRegisterController extends Controller
             return $item;
         });
         $amount = $transaction_details->sum("amount");
+        dd($transaction_details[0]);
+
 
         DB::beginTransaction();
         try {
@@ -46,13 +48,20 @@ class CashRegisterController extends Controller
         }
 
 
-        return response()->json([$transaction_details,$amount]);
+        return response()->json(["amount_received",$amount]);
     }
 
     public function emptyCashRegister(AddPaymentRequest $request){
 
-        $transaction_details = TransactionDetail::where("amount",">",0);
+        $transaction_details = collect(CashRegisterBalance::all()->toArray());
+        $transaction_details = $transaction_details->transform(function($item){
+            $item["amount"] = $item["quantity"] * $item["denomination"]*-1;
+            $item["value"] = $item["denomination"] *-1;
+            unset ($item["denomination"]);
+            return $item;
+        });
         $amount = $transaction_details->sum("amount");
+
         DB::beginTransaction();
         try {
             $transaction = Transaction::create(["amount" => $amount,"transaction_type" => TransactionTypes::Deduct]);
@@ -61,13 +70,13 @@ class CashRegisterController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error("Error at addPayment function in CashRegisterController: Exception".json_encode($e->getMessage()));
-            throw new \Exception("Error when saving data");
+//            Log::error("Error at addPayment function in CashRegisterController: Exception".json_encode($e->getMessage()));
+            throw $e;
 
         }
 
 
-        return response()->json([$transaction_details,$amount]);
+        return response()->json(["amount_returned",$amount]);
     }
 
 }

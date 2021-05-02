@@ -41,10 +41,10 @@ class CashRegisterBalance extends Model
 
 
     protected function updateDenomination(array $register){
-        $this->where("denomination",$register["denomination"])->update(["quantity"=>$register["quantity"],"amount"=>$register["amount"]]);
+        $this->where("denomination",abs($register["denomination"]))->update(["quantity"=>$register["quantity"],"amount"=>$register["amount"]]);
     }
 
     protected  function getDenomination($denomination){
-        return $this->where("denomination",$denomination)->first();
+        return $this->where("denomination",abs($denomination))->first();
     }
 }
