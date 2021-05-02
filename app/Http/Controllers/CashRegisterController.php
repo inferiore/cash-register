@@ -18,11 +18,9 @@ class CashRegisterController extends Controller
     public function addPayment(AddPaymentRequest $request){
 
 
-
-
     }
 
-    public function chargeCashRegister(AddPaymentRequest $request){
+    public function charge(AddPaymentRequest $request){
 
 
         $transaction_details = collect($request->get("payment"));
@@ -31,7 +29,8 @@ class CashRegisterController extends Controller
             return $item;
         });
         $amount = $transaction_details->sum("amount");
-        dd($transaction_details[0]);
+//        dd($transaction_details);
+
 
 
         DB::beginTransaction();
@@ -51,7 +50,7 @@ class CashRegisterController extends Controller
         return response()->json(["amount_received",$amount]);
     }
 
-    public function emptyCashRegister(AddPaymentRequest $request){
+    public function empty(AddPaymentRequest $request){
 
         $transaction_details = collect(CashRegisterBalance::all()->toArray());
         $transaction_details = $transaction_details->transform(function($item){
@@ -78,5 +77,13 @@ class CashRegisterController extends Controller
 
         return response()->json(["amount_returned",$amount]);
     }
+
+    public function status(AddPaymentRequest $request){
+
+        $status = collect(CashRegisterBalance::select("denomination","quantity","amount")->get()->toArray());
+
+        return response()->json(["status",$status]);
+    }
+
 
 }

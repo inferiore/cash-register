@@ -19,8 +19,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix("cash-register")->group(function(){
-   Route::post("charge-cash-register","CashRegisterController@chargeCashRegister");
-   Route::post("empty-cash-register","CashRegisterController@emptyCashRegister");
-    Route::post("add-payment","CashRegisterController@addPayment");
+   Route::post("charge","CashRegisterController@charge");
+   Route::post("empty","CashRegisterController@empty");
+   Route::post("add-payment","CashRegisterController@addPayment");
+   Route::get("status","CashRegisterController@status");
+
 
 });
