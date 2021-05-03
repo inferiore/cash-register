@@ -6,6 +6,8 @@ use App\CashRegisterBalance;
 use App\Events\ChargeCashRegisterEvent;
 use App\Http\Requests\AddPaymentRequest;
 use App\Http\Requests\ChargeCashRegisterRequest;
+use App\Repository\CashRegisterRepository;
+use App\Repository\CashRegisterRepositoryInterface;
 use App\Support\Types\TransactionTypes;
 use App\Transaction;
 use App\TransactionDetail;
@@ -15,10 +17,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\App;
 class CashRegisterController extends Controller
 {
-    protected $cashRegisterBalance ;
-
-    public  function __construct(CashRegisterBalance  $cashRegisterBalance){
+    private $cashRegisterBalance ;
+    private $repository;
+    public  function __construct(CashRegisterBalance  $cashRegisterBalance, CashRegisterRepositoryInterface $repository){
         $this->cashRegisterBalance = $cashRegisterBalance;
+        $this->repository = $repository;
     }
 
     public function addPayment(AddPaymentRequest $request){
@@ -119,17 +122,12 @@ class CashRegisterController extends Controller
     }
 
     public function logs(){
-        $transactions = Transaction::with("details")->get();
+        $transactions = $this->repository->logs();
         return response()->json(["logs"=>$transactions]);
     }
 
     public function statusWithDate(request $request){
-        $transactions = DB::table("transaction_details")
-            ->where("created_at",">=",$request->get("start_date"))
-            ->where("created_at","<=",$request->get("end_date"))
-            ->select(DB::raw("ABS(value) denomination"),DB::raw("sum(quantity) quantity"),DB::raw("sum(amount) amount"))
-            ->groupBy(DB::raw("ABS(value)"))
-            ->get();
+        $transactions = $this->repository->statusWithDate($request->get("start_date"),$request->get("end_date"));
         return response()->json(["logs"=>$transactions,"cash"=>$transactions->sum("amount")]);
     }
 
