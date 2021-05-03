@@ -24,6 +24,8 @@ Route::prefix("cash-register")->group(function(){
    Route::post("add-payment","CashRegisterController@addPayment");
    Route::get("status","CashRegisterController@status");
    Route::get("logs","CashRegisterController@logs");
+   Route::get("status-with-date","CashRegisterController@statusWithDate");
+
 
 
 

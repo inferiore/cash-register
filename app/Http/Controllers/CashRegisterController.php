@@ -30,7 +30,7 @@ class CashRegisterController extends Controller
         $amountReceived = $cashReceived->sum("amount");
         $change =   $amountReceived - $request->get("amountToPay");
         if($change < 0){
-            return response()->json(["message"=>"Amount to paid is less than was received."]);
+            return response()->json(["message"=>"Amount to paid is less than what was received."]);
         }
         $changeDenominations = $this->cashRegisterBalance->change($change);
 //        $cashReceived = $cashReceived->each(function($item){
@@ -122,6 +122,17 @@ class CashRegisterController extends Controller
         $transactions = Transaction::with("details")->get();
         return response()->json(["logs"=>$transactions]);
     }
+
+    public function statusWithDate(request $request){
+        $transactions = DB::table("transaction_details")
+            ->where("created_at",">=",$request->get("start_date"))
+            ->where("created_at","<=",$request->get("end_date"))
+            ->select(DB::raw("ABS(value) denomination"),DB::raw("sum(quantity) quantity"),DB::raw("sum(amount) amount"))
+            ->groupBy(DB::raw("ABS(value)"))
+            ->get();
+        return response()->json(["logs"=>$transactions,"cash"=>$transactions->sum("amount")]);
+    }
+
 
 
 
