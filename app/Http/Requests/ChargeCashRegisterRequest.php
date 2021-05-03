@@ -6,7 +6,7 @@ use App\Support\Statics\AcceptableDenominations;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class AddPaymentRequest extends FormRequest
+class ChargeCashRegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,6 @@ class AddPaymentRequest extends FormRequest
         return [
             "payment.*.quantity"=>"required|integer|min:1",
             "payment.*.value"=> ["required","numeric",Rule::in(AcceptableDenominations::Denominations)],
-            "amountToPay"=> ["required","numeric"],
         ];
     }
 }

@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class CashRegisterBalance extends Model
 {
-//    use Singleton;
-    protected static $instance = null;
+
 
     protected $table = "cash_register_balance";
     protected $fillable = ["denomination","quantity","amount"];
@@ -33,7 +32,7 @@ class CashRegisterBalance extends Model
             $data = [
                 "denomination" =>(  $value["value"] )
                 ,"quantity" =>( $currentDenomination->quantity - $value["quantity"] )
-                ,"amount" =>( $currentDenomination->amount - $value["amount"] )
+                ,"amount" =>( $currentDenomination->amount - abs($value["amount"]) )
             ];
             $this->updateDenomination($data);
         }
@@ -47,4 +46,64 @@ class CashRegisterBalance extends Model
     protected  function getDenomination($denomination){
         return $this->where("denomination",abs($denomination))->first();
     }
+    public function change($change){
+        $cash = $this->select("denomination","quantity")->get();
+//        dd($cash->toArray());
+        $denominationChange = collect();
+        $i = 0;
+        while($change != 0){
+            if($i==1){
+//                dd($change);
+//                dd($closestDenomination);
+            }
+            $closestDenomination = $this->getClosestDenomination($change,$cash);
+
+            $this->addDenominationChange($denominationChange,$closestDenomination);
+
+            if($i==1) {
+//                dd($denominationChange);
+            }
+            $cash->transform(function($item) use ($closestDenomination){
+                if($item->denomination== $closestDenomination["denomination"]){
+                     $item->quantity--;
+                }
+                return $item;
+            });
+            $change = $change - $closestDenomination["denomination"];
+            if($i==2) {
+//            dd($cash->toArray());
+//            dd($denominationChange->sum("amount"),$change);
+            }
+            $i++;
+        }
+        return $denominationChange;
+
+
+    }
+    private function getClosestDenomination($change,$cash){
+        $closestDenomination = $cash->where("denomination","<=",$change)->where("quantity",">",0)->sortByDesc("denomination")->first();
+        if(is_null($closestDenomination)){
+            throw new \Exception("There is no cash to give change.");
+        }
+       return  $closestDenomination->toArray();
+    }
+
+    private function addDenominationChange(&$denominationChange,$closestDenomination){
+      $formatClosestDenomination =  ["denomination" => -$closestDenomination["denomination"],"quantity"=> 1,"amount"=> -$closestDenomination["denomination"]];
+        if($denominationChange->where("denomination",$closestDenomination["denomination"])->count()>0){
+          $denominationChange->transform(function($item) use ($closestDenomination){
+                if($item["denomination"] == $closestDenomination["denomination"]){
+                    $item["quantity"]++;
+                }
+                return $item;
+            });
+        }else{
+            $denominationChange->push($formatClosestDenomination);
+        }
+    }
+
+
+
+
+
 }

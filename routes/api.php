@@ -23,6 +23,8 @@ Route::prefix("cash-register")->group(function(){
    Route::post("empty","CashRegisterController@empty");
    Route::post("add-payment","CashRegisterController@addPayment");
    Route::get("status","CashRegisterController@status");
+   Route::get("logs","CashRegisterController@logs");
+
 
 
 });
