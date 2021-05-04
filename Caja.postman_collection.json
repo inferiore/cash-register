@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "57966425-1689-47ef-bb48-0a15b9461623",
+		"name": "Caja",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cargar la caja",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n    \"payment\":[     \n        {\n            \"quantity\":20,\n            \"value\":50\n        },\n        {\n            \"quantity\":20,\n            \"value\":100\n        },\n        {\n            \"quantity\":15,\n            \"value\":200\n        },\n        {\n            \"quantity\":15,\n            \"value\":500\n        }\n        ,\n        {\n            \"quantity\":10,\n            \"value\":1000\n        },\n        {\n            \"quantity\":8,\n            \"value\":2000\n        },\n        {\n            \"quantity\":5,\n            \"value\":5000\n        },\n        {\n            \"quantity\":3,\n            \"value\":10000\n        }\n        ,\n        {\n            \"quantity\":2,\n            \"value\":20000\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}cash-register/charge",
+					"host": [
+						"{{url}}cash-register"
+					],
+					"path": [
+						"charge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "realizar pago",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n    \"payment\":[     \n        {\n            \"quantity\":5,\n            \"value\":500\n        },\n        {\n            \"quantity\":1,\n            \"value\":2000\n        }\n    ],\n    \"amoutToPaid\":5000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}cash-register/add-payment",
+					"host": [
+						"{{url}}cash-register"
+					],
+					"path": [
+						"add-payment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vaciar la caja",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}cash-register/empty",
+					"host": [
+						"{{url}}cash-register"
+					],
+					"path": [
+						"empty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Status",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}cash-register/empty-cash-register",
+					"host": [
+						"{{url}}cash-register"
+					],
+					"path": [
+						"empty-cash-register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}cash-register/status",
+					"host": [
+						"{{url}}cash-register"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cash register status with date",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}cash-register/status-with-date",
+					"host": [
+						"{{url}}cash-register"
+					],
+					"path": [
+						"status-with-date"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
