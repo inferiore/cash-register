@@ -16,7 +16,10 @@
 5. Poblar la base de datos
  
     ```php artisan db:seed ```
+6. Dump autoload
 
+    ```composer dump-autoload ```
+    
 ## Levantar el servido de prueba. 
 1. Ya instalado el proyecto solo nos queda levantar el servidor
     ``` php artisan serve```
