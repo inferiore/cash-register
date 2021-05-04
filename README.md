@@ -17,10 +17,10 @@
  
     ```php artisan db:seed ```
 
-## Ya instalado el proyecto solo nos quda levantar el servido de prueba. 
-1. Levantar servido de prueba
+## Levantar el servido de prueba. 
+1. Ya instalado el proyecto solo nos queda levantar el servidor
     ``` php artisan serve```
  
 ## Endpoints.
 
-Hay dos colecciones de postman en la raíz del proyecto, estas deben ser exportdas a postman debido a que tiene ejemplo sobre como utilizar los endpoints. Una es para las variables de entorno y la otra es para los endpoints.  
+Hay dos colecciones de postman en la raíz del proyecto, estas deben ser exportadas a postman debido a que tiene ejemplos sobre como utilizar los endpoints. Una es para las variables de entorno y la otra es para los endpoints.  
