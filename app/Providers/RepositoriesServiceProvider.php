@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repository\CashRegisterRepository;
 use App\Repository\CashRegisterRepositoryInterface;
+use App\Repository\TransactionRepository;
+use App\Repository\TransactionRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoriesServiceProvider extends ServiceProvider
@@ -26,5 +28,7 @@ class RepositoriesServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->bind(CashRegisterRepositoryInterface::class,CashRegisterRepository::class);
+        $this->app->bind(TransactionRepositoryInterface::class,TransactionRepository::class);
+
     }
 }

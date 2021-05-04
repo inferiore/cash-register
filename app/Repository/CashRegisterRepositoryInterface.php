@@ -15,4 +15,6 @@ interface CashRegisterRepositoryInterface
      * @return mixed
      */
     public function statusWithDate($startDate, $endDate);
+
+    public function getAllForEmptying();
 }
